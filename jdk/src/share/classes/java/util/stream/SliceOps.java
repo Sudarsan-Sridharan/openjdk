@@ -160,29 +160,7 @@ final class SliceOps {
             <P_IN> Node<T> opEvaluateParallel(PipelineHelper<T> helper,
                                               Spliterator<P_IN> spliterator,
                                               IntFunction<T[]> generator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    // Because the pipeline is SIZED the slice spliterator
-                    // can be created from the source, this requires matching
-                    // to shape of the source, and is potentially more efficient
-                    // than creating the slice spliterator from the pipeline
-                    // wrapping spliterator
-                    Spliterator<P_IN> s = sliceSpliterator(helper.getSourceShape(), spliterator, skip, limit);
-                    return Nodes.collect(helper, s, true, generator);
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    Spliterator<T> s =  unorderedSkipLimitSpliterator(
-                            helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
-                    // Collect using this pipeline, which is empty and therefore
-                    // can be used with the pipeline wrapping spliterator
-                    // Note that we cannot create a slice spliterator from
-                    // the source spliterator if the pipeline is not SIZED
-                    return Nodes.collect(this, s, true, generator);
-                }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, generator, skip, limit).
-                            invoke();
-                }
+                throw new UnsupportedOperationException("Parallel evaluation is not supported");
             }
 
             @Override
@@ -269,29 +247,7 @@ final class SliceOps {
             <P_IN> Node<Integer> opEvaluateParallel(PipelineHelper<Integer> helper,
                                                     Spliterator<P_IN> spliterator,
                                                     IntFunction<Integer[]> generator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    // Because the pipeline is SIZED the slice spliterator
-                    // can be created from the source, this requires matching
-                    // to shape of the source, and is potentially more efficient
-                    // than creating the slice spliterator from the pipeline
-                    // wrapping spliterator
-                    Spliterator<P_IN> s = sliceSpliterator(helper.getSourceShape(), spliterator, skip, limit);
-                    return Nodes.collectInt(helper, s, true);
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    Spliterator.OfInt s =  unorderedSkipLimitSpliterator(
-                            (Spliterator.OfInt) helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
-                    // Collect using this pipeline, which is empty and therefore
-                    // can be used with the pipeline wrapping spliterator
-                    // Note that we cannot create a slice spliterator from
-                    // the source spliterator if the pipeline is not SIZED
-                    return Nodes.collectInt(this, s, true);
-                }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, generator, skip, limit).
-                            invoke();
-                }
+                throw new UnsupportedOperationException("Parallel evaluation is not supported");
             }
 
             @Override
@@ -378,29 +334,7 @@ final class SliceOps {
             <P_IN> Node<Long> opEvaluateParallel(PipelineHelper<Long> helper,
                                                  Spliterator<P_IN> spliterator,
                                                  IntFunction<Long[]> generator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    // Because the pipeline is SIZED the slice spliterator
-                    // can be created from the source, this requires matching
-                    // to shape of the source, and is potentially more efficient
-                    // than creating the slice spliterator from the pipeline
-                    // wrapping spliterator
-                    Spliterator<P_IN> s = sliceSpliterator(helper.getSourceShape(), spliterator, skip, limit);
-                    return Nodes.collectLong(helper, s, true);
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    Spliterator.OfLong s =  unorderedSkipLimitSpliterator(
-                            (Spliterator.OfLong) helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
-                    // Collect using this pipeline, which is empty and therefore
-                    // can be used with the pipeline wrapping spliterator
-                    // Note that we cannot create a slice spliterator from
-                    // the source spliterator if the pipeline is not SIZED
-                    return Nodes.collectLong(this, s, true);
-                }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, generator, skip, limit).
-                            invoke();
-                }
+                throw new UnsupportedOperationException("Parallel evaluation is not supported");
             }
 
             @Override
@@ -487,29 +421,7 @@ final class SliceOps {
             <P_IN> Node<Double> opEvaluateParallel(PipelineHelper<Double> helper,
                                                    Spliterator<P_IN> spliterator,
                                                    IntFunction<Double[]> generator) {
-                long size = helper.exactOutputSizeIfKnown(spliterator);
-                if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-                    // Because the pipeline is SIZED the slice spliterator
-                    // can be created from the source, this requires matching
-                    // to shape of the source, and is potentially more efficient
-                    // than creating the slice spliterator from the pipeline
-                    // wrapping spliterator
-                    Spliterator<P_IN> s = sliceSpliterator(helper.getSourceShape(), spliterator, skip, limit);
-                    return Nodes.collectDouble(helper, s, true);
-                } else if (!StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
-                    Spliterator.OfDouble s =  unorderedSkipLimitSpliterator(
-                            (Spliterator.OfDouble) helper.wrapSpliterator(spliterator),
-                            skip, limit, size);
-                    // Collect using this pipeline, which is empty and therefore
-                    // can be used with the pipeline wrapping spliterator
-                    // Note that we cannot create a slice spliterator from
-                    // the source spliterator if the pipeline is not SIZED
-                    return Nodes.collectDouble(this, s, true);
-                }
-                else {
-                    return new SliceTask<>(this, helper, spliterator, generator, skip, limit).
-                            invoke();
-                }
+                throw new UnsupportedOperationException("Parallel evaluation is not supported");
             }
 
             @Override
